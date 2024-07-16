@@ -6,6 +6,7 @@ import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -15,7 +16,7 @@ import java.util.Collections;
 
 import static com.example.dana.member.constants.Role.*;
 
-@Getter
+@Getter @ToString
 @Entity
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class Member implements UserDetails {

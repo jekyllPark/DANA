@@ -12,6 +12,12 @@ spring:
     show-sql: true
     hibernate:
       ddl-auto: create
+    defer-datasource-initialization: true
+  # 초기 데이터베이스 등록
+  sql:
+    init:
+      mode: always
+      data-locations: classpath:/sql/init.sql
 
 #logging:
 #  level:

@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import static com.example.dana.member.constants.Role.ADMIN;
 import static com.example.dana.member.constants.Role.USER;
 
 @EnableWebSecurity
@@ -53,6 +54,7 @@ public class SecurityConfig {
                         .requestMatchers(PathRequest.toH2Console()).permitAll()
                         .requestMatchers("/", "/error", "/api/member/**", "/api/refresh-tokens/**").permitAll()
                         .requestMatchers("/api/test").hasAuthority(USER.getAuthority())
+                        .requestMatchers("/api/categories/**").hasAuthority(ADMIN.getAuthority())
                         .anyRequest().authenticated()
                 );
 

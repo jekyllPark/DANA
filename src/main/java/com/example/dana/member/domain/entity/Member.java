@@ -22,7 +22,7 @@ import static com.example.dana.member.constants.Role.*;
 public class Member implements UserDetails {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false)
+    @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
     private String username;
@@ -37,25 +37,27 @@ public class Member implements UserDetails {
         return Collections.singleton(role);
     }
 
-    private static Member createMember(MemberSignUpRequest request, PasswordEncoder passwordEncoder, Role role) {
-        Member member = new Member();
-        member.email = request.getEmail();
-        member.username = request.getUsername();
-        member.password = passwordEncoder.encode(request.getPassword());
-        member.role = role;
-        return member;
+    private Member(String email, String username, String password, Role role) {
+        this.email = email;
+        this.username = username;
+        this.password = password;
+        this.role = role;
+    }
+
+    public static Member createMember(String email, String username, String password, Role role, PasswordEncoder passwordEncoder) {
+        return new Member(email, username, passwordEncoder.encode(password), role);
     }
 
     public static Member createUser(MemberSignUpRequest request, PasswordEncoder passwordEncoder) {
-        return createMember(request, passwordEncoder, USER);
+        return createMember(request.getEmail(), request.getUsername(), request.getPassword(), USER, passwordEncoder);
     }
 
     public static Member createSeller(MemberSignUpRequest request, PasswordEncoder passwordEncoder) {
-        return createMember(request, passwordEncoder, SELLER);
+        return createMember(request.getEmail(), request.getUsername(), request.getPassword(), SELLER, passwordEncoder);
     }
 
     public static Member createAdmin(MemberSignUpRequest request, PasswordEncoder passwordEncoder) {
-        return createMember(request, passwordEncoder, ADMIN);
+        return createMember(request.getEmail(), request.getUsername(), request.getPassword(), ADMIN, passwordEncoder);
     }
 
 }
